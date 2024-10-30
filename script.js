@@ -4,7 +4,7 @@ let previousOperator = null;
 const screen = document.querySelector(".screen");
 
 function buttonClick(value) {
-  if (isNaN(parseInt(value))) {
+  if (isNaN(parseInt(value)) && value !== ".") {
     handleSymbol(value);
   } else {
     handleNumber(value);
@@ -19,20 +19,19 @@ function handleSymbol(symbol) {
       runningTotal = 0;
       previousOperator = null;
       break;
-    case "=":
-      if (previousOperator !== null) {
-        flushOperation(parseInt(buffer));
-        previousOperator = null;
-        buffer = runningTotal;
-        runningTotal = 0;
-      }
-      break;
-    case "←":
+    case "DEL":
       if (buffer.length === 1) {
         buffer = "0";
       } else {
         buffer = buffer.slice(0, -1);
       }
+      break;
+    case "=":
+      if (previousOperator === null) return;
+      flushOperation(parseFloat(buffer));
+      previousOperator = null;
+      buffer = String(runningTotal);
+      runningTotal = 0;
       break;
     case "+":
     case "−":
@@ -46,30 +45,33 @@ function handleSymbol(symbol) {
 function handleMath(symbol) {
   if (buffer === "0") return;
 
-  const intBuffer = parseInt(buffer);
+  const floatBuffer = parseFloat(buffer);
   if (runningTotal === 0) {
-    runningTotal = intBuffer;
+    runningTotal = floatBuffer;
   } else {
-    flushOperation(intBuffer);
+    flushOperation(floatBuffer);
   }
   previousOperator = symbol;
   buffer = "0";
 }
 
-function flushOperation(intBuffer) {
+function flushOperation(floatBuffer) {
   if (previousOperator === "+") {
-    runningTotal += intBuffer;
+    runningTotal += floatBuffer;
   } else if (previousOperator === "−") {
-    runningTotal -= intBuffer;
+    runningTotal -= floatBuffer;
   } else if (previousOperator === "×") {
-    runningTotal *= intBuffer;
+    runningTotal *= floatBuffer;
   } else if (previousOperator === "÷") {
-    runningTotal /= intBuffer;
+    runningTotal /= floatBuffer;
   }
 }
 
 function handleNumber(numberString) {
-  if (buffer === "0") {
+  // Handle decimal points
+  if (numberString === "." && buffer.includes(".")) return;
+
+  if (buffer === "0" && numberString !== ".") {
     buffer = numberString;
   } else {
     buffer += numberString;
@@ -78,7 +80,7 @@ function handleNumber(numberString) {
 
 function init() {
   document
-    .querySelector(".calc-button")
+    .querySelector(".calc-buttons")
     .addEventListener("click", function (event) {
       if (event.target.tagName === "BUTTON") {
         buttonClick(event.target.innerText);
