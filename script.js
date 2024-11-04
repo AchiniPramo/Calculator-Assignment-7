@@ -1,5 +1,5 @@
 let runningTotal = 0;
-let buffer = "0";
+let buffer = "";
 let previousOperator = null;
 const screen = document.querySelector(".screen");
 
@@ -21,7 +21,7 @@ function handleSymbol(symbol) {
       break;
     case "DEL":
       if (buffer.length === 1) {
-        buffer = "0";
+        buffer = "";
       } else {
         buffer = buffer.slice(0, -1);
       }
