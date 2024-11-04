@@ -15,7 +15,7 @@ function buttonClick(value) {
 function handleSymbol(symbol) {
   switch (symbol) {
     case "C":
-      buffer = "0";
+      buffer = "";
       runningTotal = 0;
       previousOperator = null;
       break;
@@ -43,7 +43,7 @@ function handleSymbol(symbol) {
 }
 
 function handleMath(symbol) {
-  if (buffer === "0") return;
+  if (buffer === "") return;
 
   const floatBuffer = parseFloat(buffer);
   if (runningTotal === 0) {
@@ -52,7 +52,7 @@ function handleMath(symbol) {
     flushOperation(floatBuffer);
   }
   previousOperator = symbol;
-  buffer = "0";
+  buffer = "";
 }
 
 function flushOperation(floatBuffer) {
@@ -71,7 +71,7 @@ function handleNumber(numberString) {
   // Handle decimal points
   if (numberString === "." && buffer.includes(".")) return;
 
-  if (buffer === "0" && numberString !== ".") {
+  if (buffer === "" && numberString !== ".") {
     buffer = numberString;
   } else {
     buffer += numberString;

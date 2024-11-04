@@ -13,7 +13,7 @@ html {
 
 body {
   align-items: center;
-  background: antiquewhite;
+
   display: flex;
   font-family: "Times New Roman", Times, serif;
   font-display: swap;
@@ -24,15 +24,15 @@ body {
 .wrapper {
   width: 350px;
   padding: 20px 25px;
-  background: rgba(138, 137, 137, 0.75);
+  background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(5px);
   border-radius: 16px;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 8px 20px rgba(163, 163, 163, 0.2);
   color: #232323;
 }
 
 .screen {
-  background: #4a4a4a;
+  background: #7c7b7b;
   color: #ffffff;
   font-size: 2rem;
   text-align: right;
